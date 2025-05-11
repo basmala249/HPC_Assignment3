@@ -54,13 +54,14 @@ int main(int argc,char ** argv) {
      * shared (array,n,mean) : means that these variables are seen by all threads and can access it (work on same copy) 
        so it needs synchronization to avoid race condition if any thread will update it if all read so no need for synchronous
      * reduction(+:variance) : each process has its own private copy of sum and work on it when all finish 
-       reduction combine all these private variables in the global sum
+       reduction combine all these private variables in the global
      **/
     #pragma omp parallel for default(none) shared(array, n, mean) reduction(+:variance)
     for(i=0;i<n;++i)
         variance += pow(array[i]-mean,2);
     variance /= n; // calculate variance
-    printf("Standard Deviation: %f", sqrt(variance)); // print standard deviation that is square root of variance
+    // standard deviation is square root of variance
+    printf("Standard Deviation: %f", sqrt(variance)); 
     /**de-allocate memory**/
     free(array);
     return 0;
