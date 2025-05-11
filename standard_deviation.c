@@ -1,3 +1,4 @@
+/**Mariam Mahmoud Ibrahim 20221207**/
 #include <stdio.h>
 #include <malloc.h>
 #include <omp.h>
