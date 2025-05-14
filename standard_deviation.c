@@ -4,7 +4,7 @@
 #include <omp.h>
 #include <math.h>
 int main(int argc,char ** argv) {
-    // problem 2
+   // problem 2
     /**get size of array and array members**/
     int n,*array=NULL;
     printf("Enter size of array:\n");
@@ -14,7 +14,7 @@ int main(int argc,char ** argv) {
     array = (int*) malloc(n* sizeof(int));
     printf("Enter array members:\n");
     fflush(stdout);
-    int i,id=0;
+    int i;
     for(i=0;i<n;++i)
         scanf("%d",&array[i]);
     /**to calculate mean that is summation of all array members then divide it by size of array**/
@@ -33,12 +33,9 @@ int main(int argc,char ** argv) {
      * reduction(+:mean) : each process has its own private copy of sum and work on it when all finish
        reduction combine all these private variables in the global sum
      **/
-#pragma omp parallel for default(none) shared(array, n) private(id) reduction(+:mean)
-    for(i=0;i<n;++i) {
-        id=omp_get_thread_num(); //  get thread id
-        printf("Thread %d is working now \n",id); // print which one is working now (not must in order)
+#pragma omp parallel for default(none) shared(array, n) reduction(+:mean)
+    for(i=0;i<n;++i) 
         mean += array[i]; // sum array members
-    }
     printf("\n");
     mean /= n; // get mean
     /**to calculate variance that is summation of squared difference between array's members and mean then divide by size of array**/
